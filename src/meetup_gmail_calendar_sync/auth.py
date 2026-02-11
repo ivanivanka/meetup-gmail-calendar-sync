@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import stat
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
@@ -13,6 +15,16 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from .config import GMAIL_MODIFY_SCOPE, GMAIL_READ_SCOPE
+
+
+def _harden_file_permissions(path: Path) -> None:
+    """Limit sensitive file permissions to owner read/write on POSIX."""
+    if os.name != "posix":
+        return
+    try:
+        path.chmod(stat.S_IRUSR | stat.S_IWUSR)
+    except Exception as exc:
+        raise RuntimeError(f"Unable to secure permissions for {path}: {exc}") from exc
 
 
 def parse_token_file(token_path: Path) -> dict[str, Any]:
@@ -80,6 +92,7 @@ def build_credentials(
         raise RuntimeError(
             f"Token file not found: {token_path}. Run `meetup-gcal-sync auth` first."
         )
+    _harden_file_permissions(token_path)
 
     token_data = parse_token_file(token_path)
     authorized_user = _authorized_user_info(credentials_path, token_data)
@@ -123,4 +136,5 @@ def run_oauth_and_store_token(
 
     token_path.parent.mkdir(parents=True, exist_ok=True)
     token_path.write_text(creds.to_json(), encoding="utf-8")
+    _harden_file_permissions(token_path)
     return token_path
