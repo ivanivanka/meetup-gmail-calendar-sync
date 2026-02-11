@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+.cache/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+logs/
+*.log
+
+# Credentials and OAuth tokens
+credentials.json
+token.json
+*.credentials.json
+*.token.json
+
+# macOS
+.DS_Store
