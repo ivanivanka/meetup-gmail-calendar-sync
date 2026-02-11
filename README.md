@@ -21,8 +21,6 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-If you fork this repo, replace the clone URL with your fork URL.
-
 ## Google setup (one time)
 
 1. Open Google Cloud Console and create/select a project.
@@ -102,15 +100,9 @@ bash scripts/install_launchd.sh \
 ## Security
 
 - Never commit `credentials.json` or `token.json`.
-- Never put tokens/secrets in git URLs, shell history, or issue comments.
-- `.gitignore` already blocks common credential/token filenames.
-- OAuth token files are automatically permission-hardened to owner-only (`600`) on POSIX.
-- Use least privilege OAuth scopes.
-- CI runs secret scanning (`gitleaks`) on every push and PR.
-
-Why no secret in clone URL:
-- Public clone URLs should look like `https://github.com/<owner>/<repo>.git`.
-- Adding tokens to URLs can leak credentials via shell history, logs, screenshots, or copied commands.
+- Keep OAuth files outside version control and use local paths.
+- Token files are permission-hardened to owner-only (`600`) on POSIX systems.
+- CI and pre-commit run credential leak scanning (`gitleaks`).
 
 ## License
 
