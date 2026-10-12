@@ -7,6 +7,18 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[2]
 policy = json.loads((root / "RETIRED.json").read_text())
+EXPECTED_REPOSITORY = "ivanivanka/meetup-gmail-calendar-sync"
+EXPECTED_BASE = "a4211160c4b5b9d170da2128961ee3200eaafeb9"
+EXPECTED_NOTICES = [
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "RETIRED.md",
+]
+assert policy["repository"] == EXPECTED_REPOSITORY
+assert policy["original_head"] == EXPECTED_BASE
+assert policy["notice_surfaces"] == EXPECTED_NOTICES
 assert policy["status"] == "permanently_retired"
 assert policy["historical_read"]["explicit_confirmations_required"] == 2
 assert policy["historical_read"]["current_task_only"] is True
@@ -31,10 +43,10 @@ required = {
     "service_use",
 }
 assert required <= set(policy["prohibited_operations"])
-base = policy["original_head"]
+base = EXPECTED_BASE
 subprocess.run(["git", "cat-file", "-e", base + "^{commit}"], cwd=root, check=True)
 entries = subprocess.check_output(["git", "ls-tree", "-rz", base], cwd=root).split(b"\0")
-notices = set(policy["notice_surfaces"])
+notices = set(EXPECTED_NOTICES)
 preserved = 0
 original_names = set()
 for entry in entries:
