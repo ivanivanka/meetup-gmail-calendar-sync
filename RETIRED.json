@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "repository": "ivanivanka/meetup-gmail-calendar-sync",
+  "status": "permanently_retired",
+  "retired_on": "2026-10-12",
+  "authorization": "Ivan explicit current task archival instruction",
+  "original_head": "a4211160c4b5b9d170da2128961ee3200eaafeb9",
+  "original_tree": "38f7ca92a5a3ac33b89472d414f50a9a4c5481e3",
+  "notice_surfaces": [
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "RETIRED.md"
+  ],
+  "prohibited_operations": [
+    "write",
+    "commit",
+    "push",
+    "pull",
+    "fetch",
+    "clone",
+    "sync",
+    "install",
+    "build",
+    "run",
+    "deploy",
+    "schedule",
+    "revive",
+    "maintain",
+    "service_use",
+    "current_authority",
+    "default_source"
+  ],
+  "historical_read": {
+    "explicit_confirmations_required": 2,
+    "current_task_only": true,
+    "ordinary_reads_allowed": false,
+    "first": "exceptional historical need and why current sources cannot answer",
+    "second": "exact repo, files or range, purpose and destination with retired/unverified status understood"
+  },
+  "active_client_content_must_not_be_overwritten": true,
+  "external_resource_teardown": "requires_separate_current_provider_evidence",
+  "one_time_administrative_exception": "final notice PR and archival controls only; no continuing maintenance",
+  "review_scope": "No matching local LaunchAgent, loaded com.meetup.gcal.sync.daily job, user cron entry, process or selected installed MCP configuration was found. Google Calendar events, Gmail data and external OAuth credentials are preserved; no calendar deletion or token revocation is inferred from the source archive."
+}
