@@ -1,0 +1,39 @@
+name: Archival preservation
+
+'on':
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  preservation:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify original source and archival policy
+        run: python3 .github/scripts/validate-retirement.py
+  notices:
+    name: Pre-Commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate policy JSON and warning surfaces
+        run: |
+          python3 -m json.tool RETIRED.json > /dev/null
+          python3 .github/scripts/validate-retirement.py
+          git diff --check HEAD^ HEAD
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run existing hooks on final archival files
+        run: |
+          python -m pip install pre-commit
+          pre-commit run --files README.md AGENTS.md CLAUDE.md .github/copilot-instructions.md RETIRED.md RETIRED.json .github/scripts/validate-retirement.py .github/workflows/retirement-preservation.yml
